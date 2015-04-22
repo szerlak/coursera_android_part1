@@ -22,6 +22,14 @@ public class ToDoListAdapter extends BaseAdapter {
 
 	private static final String TAG = "Lab-UserInterface";
 
+	private static class ViewHolderItem {
+		TextView title;
+		CheckBox status;
+		TextView priority;
+		TextView date;
+		int position;
+	}
+
 	public ToDoListAdapter(Context context) {
 
 		mContext = context;
@@ -83,36 +91,42 @@ public class ToDoListAdapter extends BaseAdapter {
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolderItem viewHolder;
 
 		final ToDoItem toDoItem = (ToDoItem) getItem(position);
 
-		RelativeLayout itemLayout = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.todo_item, parent, false);
+		if (convertView == null) {
+			convertView = LayoutInflater.from(mContext).inflate(R.layout.todo_item, parent, false);
+			viewHolder = new ViewHolderItem();
+			viewHolder.title = (TextView) convertView.findViewById(R.id.titleView);
+			viewHolder.status = (CheckBox) convertView.findViewById((R.id.statusCheckBox));
+			viewHolder.priority = (TextView) convertView.findViewById(R.id.priorityView);
+			viewHolder.date = (TextView) convertView.findViewById(R.id.dateView);
 
-		final TextView titleView = (TextView) itemLayout.findViewById(R.id.titleView);
-		titleView.setText(toDoItem.getTitle());
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolderItem) convertView.getTag();
+		}
 
-		final CheckBox statusView = (CheckBox) itemLayout.findViewById((R.id.statusCheckBox));
-		statusView.setChecked(toDoItem.getStatus() == ToDoItem.Status.DONE);
+		viewHolder.title.setText(toDoItem.getTitle());
+		viewHolder.status.setChecked(toDoItem.getStatus() == ToDoItem.Status.DONE);
 
-		statusView.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						if (isChecked) {
-							toDoItem.setStatus(ToDoItem.Status.DONE);
-						} else {
-							toDoItem.setStatus(ToDoItem.Status.NOTDONE);
-						}
-					}
-				});
+		viewHolder.status.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+										 boolean isChecked) {
+				if (isChecked) {
+					toDoItem.setStatus(ToDoItem.Status.DONE);
+				} else {
+					toDoItem.setStatus(ToDoItem.Status.NOTDONE);
+				}
+			}
+		});
 
-		final TextView priorityView = (TextView) itemLayout.findViewById(R.id.priorityView);
-		priorityView.setText(toDoItem.getPriority().toString());
+		viewHolder.priority.setText(toDoItem.getPriority().toString());
+		viewHolder.date.setText(ToDoItem.FORMAT.format(toDoItem.getDate()));
 
-		final TextView dateView = (TextView) itemLayout.findViewById(R.id.dateView);
-		dateView.setText(ToDoItem.FORMAT.format(toDoItem.getDate()));
-
-		return itemLayout;
+		return convertView;
 
 	}
 }
