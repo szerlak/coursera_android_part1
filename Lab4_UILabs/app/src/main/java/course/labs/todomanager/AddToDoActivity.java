@@ -89,32 +89,19 @@ public class AddToDoActivity extends Activity {
 		cancelButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-
-
-				// TODO - Indicate result and finish
-
-                
-                
+				setResult(RESULT_CANCELED);
+				finish();
 			}
 		});
 
-		// TODO - Set up OnClickListener for the Reset Button
 		final Button resetButton = (Button) findViewById(R.id.resetButton);
 		resetButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-
-				// TODO - Reset data to default values
-
-
-                
-                
-                
-				// reset date and time
+				mTitleText.setText("");
+				mPriorityRadioGroup.check(R.id.medPriority);
+				mStatusRadioGroup.check(R.id.statusNotDone);
 				setDefaultDateTime();
-
 			}
 		});
 
@@ -124,40 +111,19 @@ public class AddToDoActivity extends Activity {
 		submitButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-
-				// gather ToDoItem data
-
-
-				// TODO - Get the current Priority
-				Priority priority = null;
-
-				// TODO - Get the current Status
-				Status status = null;
-
-				// TODO - Get the current ToDoItem Title
-
-
-				String titleString = null;
-
-
-				// Construct the Date string
+				Priority priority = getPriority();
+				Status status = getStatus();
+				String titleString = getToDoTitle();
 				String fullDate = dateString + " " + timeString;
 
-				// Package ToDoItem data into an Intent
 				Intent data = new Intent();
 				ToDoItem.packageIntent(data, titleString, priority, status,
 						fullDate);
 
-				// TODO - return data Intent and finish
-
-
-
-
-            
-            
+				setResult(RESULT_OK, data);
+				finish();
 			}
-		    });
+		});
 	}
 
 	// Do not modify below this point.
