@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ModernArtUI</string>
+    <string name="action_more_information">More information</string>
+
+    <color name="blue">#0000FF</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#AAAAAA</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="dark_blue">#ff1d4361</color>
+
+    <string name="open_with">Open with</string>
+    <string name="dialog_message">Click below to learn more!</string>
+    <string name="dialog_cancel">Not now</string>
+    <string name="dialog_ok">Visit MOMA</string>
+
+</resources>
