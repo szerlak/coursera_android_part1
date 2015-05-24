@@ -73,11 +73,6 @@ public class DownloaderTaskFragment extends Fragment {
 		mCallback = null;
 	}
 
-	// TODO: Implement an AsyncTask subclass called DownLoaderTask.
-	// This class must use the downloadTweets method (currently commented
-	// out). Ultimately, it must also pass newly available data back to
-	// the hosting Activity using the DownloadFinishedListener interface.
-
 	public class DownloaderTask extends AsyncTask<ArrayList<Integer>, Void, String[]> {
 
 		@Override
@@ -175,16 +170,14 @@ public class DownloaderTaskFragment extends Fragment {
 						@Override
 						public void onReceive(Context context, Intent intent) {
 
-							// TODO: Check whether or not the MainActivity
-							// received the broadcast
+							// Check whether or not the MainActivity received the broadcast
 
 							if (getResultCode() != MainActivity.IS_ALIVE) {
 
-								// TODO: If not, create a PendingIntent using
-								// the
-								// restartMainActivityIntent and set its flags
-								// to FLAG_UPDATE_CURRENT
-								PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, restartMainActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+								// PendingIntent using the restartMainActivityIntent and
+								// set its flags to FLAG_UPDATE_CURRENT
+								PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+										restartMainActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
 								// Uses R.layout.custom_notification for the
@@ -195,13 +188,12 @@ public class DownloaderTaskFragment extends Fragment {
 										mContext.getPackageName(),
 										R.layout.custom_notification);
 
-								// TODO: Set the notification View's text to
-								// reflect whether the download completed
-								// successfully
+								// Set the notification View's text to reflect
+								// whether the download completed successfully
 								mContentView.setTextViewText(R.id.text, success ? successMsg : failMsg);
 
 
-								// TODO: Use the Notification.Builder class to
+								// Use the Notification.Builder class to
 								// create the Notification. You will have to set
 								// several pieces of information. You can use
 								// android.R.drawable.stat_sys_warning
@@ -212,10 +204,12 @@ public class DownloaderTaskFragment extends Fragment {
 										context)
 										.setSmallIcon(android.R.drawable.stat_sys_warning)
 										.setAutoCancel(true)
+										.setContentIntent(pendingIntent)
 										.setContent(mContentView);
 
-								// TODO: Send the notification
-								NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+								// Send the notification
+								NotificationManager mNotificationManager = (NotificationManager)
+										mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 								mNotificationManager.notify(MY_NOTIFICATION_ID, notificationBuilder.build());
 
 								Toast.makeText(mContext, notificationSentMsg,
